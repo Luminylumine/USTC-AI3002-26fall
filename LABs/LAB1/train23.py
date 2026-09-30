@@ -34,8 +34,31 @@ def main() -> None:
     parser.add_argument("task", choices=("world", "truth"))
     parser.add_argument("layer", type=int)
     parser.add_argument("output", type=Path, help="Path to the output .npz file")
-    # 你可以在此处加入更多的命令行参数，例如学习率、训练轮数等
+    # 模型超参数（默认值即模型类中的默认值）
+    parser.add_argument("--lambda1", type=float, default=0.0, help="L1 正则化强度")
+    parser.add_argument("--lambda2", type=float, default=0.0, help="L2 正则化强度")
+    parser.add_argument("--learning-rate", type=float, default=None, help="固定学习率，缺省时自动估计")
+    parser.add_argument("--lr-scale", type=float, default=1.0, help="自动学习率的缩放系数")
+    parser.add_argument("--lr-decay", type=float, default=0.0, help="学习率衰减系数")
+    parser.add_argument("--momentum", type=float, default=0.0, help="动量系数")
+    parser.add_argument("--max-iter", type=int, default=20_000, help="最大迭代次数")
+    parser.add_argument("--tol", type=float, default=1e-10, help="损失相对改进阈值")
+    parser.add_argument("--patience", type=int, default=50, help="容忍的停滞检查次数")
+    parser.add_argument("--verbose", action="store_true", help="打印训练过程")
     args = parser.parse_args()
+
+    model_kwargs = dict(
+        lambda1=args.lambda1,
+        lambda2=args.lambda2,
+        learning_rate=args.learning_rate,
+        lr_scale=args.lr_scale,
+        lr_decay=args.lr_decay,
+        momentum=args.momentum,
+        max_iter=args.max_iter,
+        tol=args.tol,
+        patience=args.patience,
+        verbose=args.verbose,
+    )
 
     # 加载数据
     train_x, train_y = load_split(args.task, "train", args.layer)
@@ -46,8 +69,8 @@ def main() -> None:
         latitude_targets = train_y[:, 0]
         longitude_targets = train_y[:, 1]
 
-        latitude_model = LinearRegressionModel(train_x.shape[1])
-        longitude_model = LinearRegressionModel(train_x.shape[1])
+        latitude_model = LinearRegressionModel(train_x.shape[1], **model_kwargs)
+        longitude_model = LinearRegressionModel(train_x.shape[1], **model_kwargs)
         latitude_model.fit(train_x, latitude_targets)
         longitude_model.fit(train_x, longitude_targets)
 
@@ -56,12 +79,24 @@ def main() -> None:
         prediction = np.column_stack((latitude_predictions, longitude_predictions))
         weights = np.stack((latitude_model.weights, longitude_model.weights))
         bias = np.array((latitude_model.bias, longitude_model.bias))
+        train_prediction = np.column_stack(
+            (latitude_model.predict(train_x), longitude_model.predict(train_x))
+        )
+        print(
+            "Train iterations: "
+            f"lat {latitude_model.n_iter_} (loss {latitude_model.train_loss_:.6f}), "
+            f"lon {longitude_model.n_iter_} (loss {longitude_model.train_loss_:.6f})"
+        )
+        print(f"Training MSE: {np.mean((train_prediction - train_y) ** 2):.4f}")
     else:
-        model = LogisticRegressionModel(train_x.shape[1])
+        model = LogisticRegressionModel(train_x.shape[1], **model_kwargs)
         model.fit(train_x, train_y)
         prediction = model.predict(valid_x)
         weights = model.weights
         bias = model.bias
+        print(f"Train iterations: {model.n_iter_} (loss {model.train_loss_:.6f})")
+        train_prediction = model.predict(train_x)
+        print(f"Training accuracy: {np.mean((train_prediction >= 0.5) == train_y):.4f}")
 
     if prediction.shape != valid_y.shape:
         raise ValueError(f"Expected predictions with shape {valid_y.shape}")
