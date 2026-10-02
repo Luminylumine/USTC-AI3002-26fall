@@ -1,0 +1,40 @@
+{
+  "world": {
+    "per_output": [
+      {
+        "layer": 11,
+        "lambda2_lat": 0.14,
+        "lambda2_lon": 0.28,
+        "valid_mse_lat": 29.140550426390387,
+        "valid_mse_lon": 270.12988433507394,
+        "valid_mse_total": 299.27043476146434
+      },
+      {
+        "layer": 23,
+        "lambda2_lat": 0.2,
+        "lambda2_lon": 0.28,
+        "valid_mse_lat": 60.36195606882601,
+        "valid_mse_lon": 387.61885273233355,
+        "valid_mse_total": 447.9808088011596
+      },
+      {
+        "layer": 35,
+        "lambda2_lat": 2.0,
+        "lambda2_lon": 2.0,
+        "valid_mse_lat": 41.32991066820025,
+        "valid_mse_lon": 407.8005462957717,
+        "valid_mse_total": 449.13045696397194
+      }
+    ],
+    "layer": 11,
+    "lambda2_lat": 0.14,
+    "lambda2_lon": 0.28,
+    "valid_mse_total": 299.27043476146434
+  },
+  "truth": {
+    "layer": 23,
+    "lambda2": 0.03,
+    "valid_accuracy": 0.883333,
+    "train_accuracy": 0.93809
+  }
+}

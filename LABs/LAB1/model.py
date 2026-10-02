@@ -5,6 +5,7 @@
 - 偏置 b 不参与 L1/L2 正则；
 - L1 在零点取次梯度 sgn(0)=0；
 - 学习率默认由幂迭代估计的 Lipschitz 常数自动给出（lr = 1/L），
+  Lipschitz 常数基于含全 1 偏置列的增广设计矩阵估计，覆盖偏置坐标，
   避免手调学习率在不同数据集/层数上失效；
 - 支持学习率衰减与动量（二者都不改变"梯度下降法"这一事实），
   用于缓解文档提示的"含 L1 时固定学习率在零点附近振荡"；
@@ -40,22 +41,35 @@ def _sigmoid(z: np.ndarray) -> np.ndarray:
 
 
 def _lambda_max(x: np.ndarray, n_iter: int = 100) -> float:
-    """用幂迭代估计 (1/N) X^T X 的最大特征值（用于自动设置学习率）。"""
-    n_features = x.shape[1]
-    v = np.ones(n_features, dtype=np.float64) / np.sqrt(n_features)
+    """用幂迭代估计 (1/N) X_aug^T X_aug 的最大特征值（用于自动设置学习率）。
+
+    这里 X_aug = [X, 1] 是在原始特征后拼接全 1 偏置列后的增广设计矩阵，
+    使估计出的 Lipschitz 常数覆盖偏置坐标。否则当特征为常数（尤其全零）时
+    X^T X 的最大特征值为 0，学习率会错误回退到 1 而振荡/发散。
+    拼接偏置列后，全零特征时最大特征值至少为 1（偏置列的单位范数），
+    保证默认全批量 GD 的学习率有限且收敛。
+    """
+    n, n_features = x.shape
+    v = np.ones(n_features + 1, dtype=np.float64) / np.sqrt(n_features + 1)
     lam = 0.0
     for _ in range(n_iter):
-        u = x @ v
+        u = x @ v[:n_features] + v[n_features]
         nv = np.linalg.norm(u)
         if nv == 0.0:
             return 0.0
         u /= nv
-        v = x.T @ u
+        v = np.empty(n_features + 1, dtype=np.float64)
+        v[:n_features] = x.T @ u
+        v[n_features] = float(np.sum(u))
         nv = np.linalg.norm(v)
         if nv == 0.0:
             return 0.0
         v /= nv
-        lam = float(v @ (x.T @ (x @ v)) / max(x.shape[0], 1))
+        # Rayleigh 商 v^T (X_aug^T X_aug) v / N
+        xu = x @ v[:n_features] + v[n_features]
+        lam = float(
+            (v[:n_features] @ (x.T @ xu) + v[n_features] * np.sum(xu)) / max(n, 1)
+        )
     return max(lam, 0.0)
 
 
@@ -186,7 +200,7 @@ class LinearRegressionModel(_GradientDescentBase):
         super().__init__(n_features, **kwargs)
 
     def _initial_learning_rate(self, x: np.ndarray) -> float:
-        # L = lambda_max((2/N) X^T X) + 2*lambda2
+        # L = lambda_max((2/N) X_aug^T X_aug) + 2*lambda2（X_aug 含偏置列）
         l_max = _lambda_max(x)
         lipschitz = 2.0 * l_max + 2.0 * self.lambda2
         if lipschitz <= 0:
@@ -217,7 +231,7 @@ class LogisticRegressionModel(_GradientDescentBase):
         super().__init__(n_features, **kwargs)
 
     def _initial_learning_rate(self, x: np.ndarray) -> float:
-        # 逻辑回归的 Hessian <= (1/4)(1/N) X^T X
+        # 逻辑回归的 Hessian <= (1/4)(1/N) X_aug^T X_aug（X_aug 含偏置列）
         l_max = _lambda_max(x)
         lipschitz = 0.25 * l_max + 2.0 * self.lambda2
         if lipschitz <= 0:

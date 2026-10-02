@@ -1,0 +1,13 @@
+Lab1 提交清单
+============
+world (实验 2.2, 线性回归):
+  npz:  results/world.npz   (weights (2,2560) float64, bias (2,) float64)
+  层数: 11
+  验证 MSE: 149.6352 (纬度 29.1406, 经度 270.1299)   [λ_lat=0.14, λ_lon=0.28]
+
+truth (实验 2.3, 逻辑回归):
+  npz:  results/truth.npz   (weights (2560,) float64, bias () float64)
+  层数: 23
+  验证准确率: 0.883333 (训练 0.938090)                [λ2=0.03]
+
+报告: report.pdf (由 report.tex 编译)

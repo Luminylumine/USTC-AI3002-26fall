@@ -1,0 +1,5 @@
+internal split: fit=4580 eval=508 labelRatio=0.500
+  mom0.99/8k     lam2=0.03  fitAcc=0.9413 internalEvalAcc=0.9016 iters=3290
+  plain/20k      lam2=0     fitAcc=0.9341 internalEvalAcc=0.8976 iters=20000
+  plain/20k      lam2=0.01  fitAcc=0.9310 internalEvalAcc=0.8976 iters=20000
+  plain/20k      lam2=0.03  fitAcc=0.9282 internalEvalAcc=0.8957 iters=20000
