@@ -219,3 +219,6 @@ __marimo__/
 
 # MacOS files
 .DS_Store
+
+# Lab report PDFs: keep Markdown/source in the repo, never commit compiled PDFs
+LABs/**/*.pdf
