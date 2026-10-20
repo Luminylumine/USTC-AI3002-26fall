@@ -117,6 +117,7 @@ class _GradientDescentBase:
 
         self.weights = np.zeros(self.n_features, dtype=np.float64)
         self.bias = np.float64(0.0)
+        self.sample_weight: np.ndarray | None = None
         self.n_iter_: int = 0
         self.train_loss_: float = np.inf
         self.loss_curve_: list[tuple[int, float]] = []
@@ -137,13 +138,33 @@ class _GradientDescentBase:
         raise NotImplementedError
 
     # ---------------------------------------------------------- 训练主循环
-    def fit(self, features: np.ndarray, targets: np.ndarray) -> None:
+    def fit(
+        self,
+        features: np.ndarray,
+        targets: np.ndarray,
+        sample_weight: np.ndarray | None = None,
+    ) -> None:
         x = _as_2d(features)
         y = np.asarray(targets, dtype=np.float64).reshape(-1)
         if x.shape[0] != y.shape[0]:
             raise ValueError(f"样本数不一致：features {x.shape[0]} vs targets {y.shape[0]}")
         if x.shape[1] != self.n_features:
             raise ValueError(f"特征维度不一致：期望 {self.n_features}，实际 {x.shape[1]}")
+
+        if sample_weight is not None:
+            sw = np.asarray(sample_weight, dtype=np.float64).reshape(-1)
+            if sw.shape[0] != x.shape[0]:
+                raise ValueError(
+                    f"样本权重数不一致：features {x.shape[0]} vs sample_weight {sw.shape[0]}"
+                )
+            if np.any(sw < 0):
+                raise ValueError("sample_weight 不能为负")
+            sw_sum = float(np.sum(sw))
+            if sw_sum <= 0:
+                raise ValueError("sample_weight 之和必须为正")
+            self.sample_weight = sw / sw_sum
+        else:
+            self.sample_weight = None
 
         weights = np.zeros(x.shape[1], dtype=np.float64)
         bias = 0.0
@@ -201,7 +222,12 @@ class LinearRegressionModel(_GradientDescentBase):
 
     def _initial_learning_rate(self, x: np.ndarray) -> float:
         # L = lambda_max((2/N) X_aug^T X_aug) + 2*lambda2（X_aug 含偏置列）
-        l_max = _lambda_max(x)
+        if self.sample_weight is None:
+            l_max = _lambda_max(x)
+        else:
+            n = x.shape[0]
+            scale = np.sqrt(n * self.sample_weight)[:, None]
+            l_max = _lambda_max(x * scale)
         lipschitz = 2.0 * l_max + 2.0 * self.lambda2
         if lipschitz <= 0:
             return 1.0
@@ -210,11 +236,17 @@ class LinearRegressionModel(_GradientDescentBase):
     def _data_loss_and_grad(
         self, x: np.ndarray, y: np.ndarray, weights: np.ndarray, bias: float
     ) -> tuple[float, np.ndarray, float]:
-        n = x.shape[0]
         residual = x @ weights + bias - y
-        loss = float(np.mean(residual**2))
-        grad_w = (2.0 / n) * (x.T @ residual)
-        grad_b = float((2.0 / n) * np.sum(residual))
+        if self.sample_weight is None:
+            n = x.shape[0]
+            loss = float(np.mean(residual**2))
+            grad_w = (2.0 / n) * (x.T @ residual)
+            grad_b = float((2.0 / n) * np.sum(residual))
+        else:
+            w = self.sample_weight
+            loss = float(np.sum(w * (residual**2)))
+            grad_w = 2.0 * (x.T @ (w * residual))
+            grad_b = float(2.0 * np.sum(w * residual))
         return loss, grad_w, grad_b
 
     def predict(self, features: np.ndarray) -> np.ndarray:
@@ -232,7 +264,12 @@ class LogisticRegressionModel(_GradientDescentBase):
 
     def _initial_learning_rate(self, x: np.ndarray) -> float:
         # 逻辑回归的 Hessian <= (1/4)(1/N) X_aug^T X_aug（X_aug 含偏置列）
-        l_max = _lambda_max(x)
+        if self.sample_weight is None:
+            l_max = _lambda_max(x)
+        else:
+            n = x.shape[0]
+            scale = np.sqrt(n * self.sample_weight)[:, None]
+            l_max = _lambda_max(x * scale)
         lipschitz = 0.25 * l_max + 2.0 * self.lambda2
         if lipschitz <= 0:
             return 1.0
@@ -241,13 +278,18 @@ class LogisticRegressionModel(_GradientDescentBase):
     def _data_loss_and_grad(
         self, x: np.ndarray, y: np.ndarray, weights: np.ndarray, bias: float
     ) -> tuple[float, np.ndarray, float]:
-        n = x.shape[0]
         z = x @ weights + bias
-        # 平均负对数似然：mean( logaddexp(0, z) - y*z )
-        loss = float(np.mean(np.logaddexp(0.0, z) - y * z))
         p = _sigmoid(z)
-        grad_w = (1.0 / n) * (x.T @ (p - y))
-        grad_b = float((1.0 / n) * np.sum(p - y))
+        if self.sample_weight is None:
+            n = x.shape[0]
+            loss = float(np.mean(np.logaddexp(0.0, z) - y * z))
+            grad_w = (1.0 / n) * (x.T @ (p - y))
+            grad_b = float((1.0 / n) * np.sum(p - y))
+        else:
+            w = self.sample_weight
+            loss = float(np.sum(w * (np.logaddexp(0.0, z) - y * z)))
+            grad_w = x.T @ (w * (p - y))
+            grad_b = float(np.sum(w * (p - y)))
         return loss, grad_w, grad_b
 
     def predict(self, features: np.ndarray) -> np.ndarray:
