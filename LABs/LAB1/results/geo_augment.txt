@@ -1,0 +1,378 @@
+# GeoNames 扩充试验原始输出（脚本 geo_augment_experiment.py）
+
+层: [11, 23, 35]
+数据集规模：
+  原始 train = 500 条；Geo aug = 31542 条
+  eval_seen = 145 条；eval_unseen = 246 条
+  原始 valid = 130 条
+
+全局均值基线 vector-sum-MSE：
+  valid: 3311.3
+  eval_seen: 2150.9
+  eval_unseen: 2271.7
+
+==============================================================================
+layer 11
+==============================================================================
+  n=  500 unweighted λ=0.001 | valid sum=   739.2 | seen sum=   520.6 | unseen sum=  6054.2
+  n=  500 unweighted λ=0.003 | valid sum=   669.3 | seen sum=   464.0 | unseen sum=  5709.9
+  n=  500 unweighted λ=0.01  | valid sum=   546.1 | seen sum=   358.6 | unseen sum=  5033.3
+  n=  500 unweighted λ=0.02  | valid sum=   467.5 | seen sum=   288.8 | unseen sum=  4539.3
+  n=  500 unweighted λ=0.05  | valid sum=   378.0 | seen sum=   208.6 | unseen sum=  3850.3
+  n=  500 unweighted λ=0.1   | valid sum=   331.1 | seen sum=   166.9 | unseen sum=  3350.2
+  n=  500 unweighted λ=0.14  | valid sum=   316.0 | seen sum=   154.0 | unseen sum=  3124.7
+  n=  500 unweighted λ=0.2   | valid sum=   305.9 | seen sum=   146.0 | unseen sum=  2901.2
+  n=  500 unweighted λ=0.28  | valid sum=   302.1 | seen sum=   144.4 | unseen sum=  2706.6
+  n=  500 unweighted λ=0.5   | valid sum=   310.0 | seen sum=   157.5 | unseen sum=  2412.1
+  n=  500 weighted   λ=0.001 | valid sum=   701.7 | seen sum=   491.6 | unseen sum=  5886.4
+  n=  500 weighted   λ=0.003 | valid sum=   617.5 | seen sum=   419.4 | unseen sum=  5451.2
+  n=  500 weighted   λ=0.01  | valid sum=   501.7 | seen sum=   311.0 | unseen sum=  4777.2
+  n=  500 weighted   λ=0.02  | valid sum=   434.0 | seen sum=   247.5 | unseen sum=  4327.8
+  n=  500 weighted   λ=0.05  | valid sum=   357.1 | seen sum=   179.3 | unseen sum=  3727.2
+  n=  500 weighted   λ=0.1   | valid sum=   316.8 | seen sum=   145.2 | unseen sum=  3322.5
+  n=  500 weighted   λ=0.14  | valid sum=   304.2 | seen sum=   134.3 | unseen sum=  3150.1
+  n=  500 weighted   λ=0.2   | valid sum=   296.0 | seen sum=   126.8 | unseen sum=  2983.7
+  n=  500 weighted   λ=0.28  | valid sum=   293.6 | seen sum=   123.7 | unseen sum=  2839.1
+  n=  500 weighted   λ=0.5   | valid sum=   304.3 | seen sum=   129.0 | unseen sum=  2610.4
+  n= 1500 unweighted λ=0.001 | valid sum=   613.9 | seen sum=   295.7 | unseen sum=  4781.3
+  n= 1500 unweighted λ=0.003 | valid sum=   431.6 | seen sum=   187.5 | unseen sum=  3701.7
+  n= 1500 unweighted λ=0.01  | valid sum=   320.8 | seen sum=   131.7 | unseen sum=  2980.0
+  n= 1500 unweighted λ=0.02  | valid sum=   286.0 | seen sum=   114.5 | unseen sum=  2743.1
+  n= 1500 unweighted λ=0.05  | valid sum=   263.8 | seen sum=   100.7 | unseen sum=  2494.6
+  n= 1500 unweighted λ=0.1   | valid sum=   262.8 | seen sum=    99.0 | unseen sum=  2292.9
+  n= 1500 unweighted λ=0.14  | valid sum=   267.3 | seen sum=   102.6 | unseen sum=  2189.6
+  n= 1500 unweighted λ=0.2   | valid sum=   276.1 | seen sum=   110.6 | unseen sum=  2081.8
+  n= 1500 unweighted λ=0.28  | valid sum=   289.0 | seen sum=   123.4 | unseen sum=  1988.0
+  n= 1500 unweighted λ=0.5   | valid sum=   326.0 | seen sum=   161.0 | unseen sum=  1863.9
+  n= 1500 weighted   λ=0.001 | valid sum=   541.5 | seen sum=   239.6 | unseen sum=  4314.6
+  n= 1500 weighted   λ=0.003 | valid sum=   406.0 | seen sum=   160.8 | unseen sum=  3513.4
+  n= 1500 weighted   λ=0.01  | valid sum=   328.5 | seen sum=   120.3 | unseen sum=  3037.0
+  n= 1500 weighted   λ=0.02  | valid sum=   301.8 | seen sum=   105.7 | unseen sum=  2893.6
+  n= 1500 weighted   λ=0.05  | valid sum=   280.1 | seen sum=    90.7 | unseen sum=  2737.1
+  n= 1500 weighted   λ=0.1   | valid sum=   274.0 | seen sum=    84.1 | unseen sum=  2611.8
+  n= 1500 weighted   λ=0.14  | valid sum=   274.7 | seen sum=    83.2 | unseen sum=  2546.8
+  n= 1500 weighted   λ=0.2   | valid sum=   278.7 | seen sum=    84.6 | unseen sum=  2473.9
+  n= 1500 weighted   λ=0.28  | valid sum=   286.5 | seen sum=    88.7 | unseen sum=  2400.6
+  n= 1500 weighted   λ=0.5   | valid sum=   313.7 | seen sum=   105.2 | unseen sum=  2265.6
+  n= 5500 unweighted λ=0.001 | valid sum=   290.2 | seen sum=    88.0 | unseen sum=  3460.5
+  n= 5500 unweighted λ=0.003 | valid sum=   242.7 | seen sum=    64.7 | unseen sum=  2771.2
+  n= 5500 unweighted λ=0.01  | valid sum=   217.3 | seen sum=    59.5 | unseen sum=  2258.5
+  n= 5500 unweighted λ=0.02  | valid sum=   219.0 | seen sum=    63.5 | unseen sum=  2053.9
+  n= 5500 unweighted λ=0.05  | valid sum=   234.4 | seen sum=    76.3 | unseen sum=  1853.8
+  n= 5500 unweighted λ=0.1   | valid sum=   256.8 | seen sum=    96.9 | unseen sum=  1744.2
+  n= 5500 unweighted λ=0.14  | valid sum=   272.6 | seen sum=   112.7 | unseen sum=  1708.6
+  n= 5500 unweighted λ=0.2   | valid sum=   294.6 | seen sum=   135.1 | unseen sum=  1687.3
+  n= 5500 unweighted λ=0.28  | valid sum=   321.8 | seen sum=   162.6 | unseen sum=  1684.4
+  n= 5500 unweighted λ=0.5   | valid sum=   389.2 | seen sum=   226.8 | unseen sum=  1718.4
+  n= 5500 weighted   λ=0.001 | valid sum=   299.9 | seen sum=    76.7 | unseen sum=  2868.8
+  n= 5500 weighted   λ=0.003 | valid sum=   267.0 | seen sum=    58.0 | unseen sum=  2470.6
+  n= 5500 weighted   λ=0.01  | valid sum=   249.1 | seen sum=    52.3 | unseen sum=  2229.6
+  n= 5500 weighted   λ=0.02  | valid sum=   247.9 | seen sum=    53.2 | unseen sum=  2176.4
+  n= 5500 weighted   λ=0.05  | valid sum=   251.8 | seen sum=    56.0 | unseen sum=  2150.2
+  n= 5500 weighted   λ=0.1   | valid sum=   258.4 | seen sum=    59.5 | unseen sum=  2117.2
+  n= 5500 weighted   λ=0.14  | valid sum=   263.8 | seen sum=    62.5 | unseen sum=  2088.4
+  n= 5500 weighted   λ=0.2   | valid sum=   272.2 | seen sum=    67.5 | unseen sum=  2047.5
+  n= 5500 weighted   λ=0.28  | valid sum=   284.2 | seen sum=    75.1 | unseen sum=  2001.4
+  n= 5500 weighted   λ=0.5   | valid sum=   320.0 | seen sum=    99.3 | unseen sum=  1918.5
+  n=16500 unweighted λ=0.001 | valid sum=   243.6 | seen sum=    48.5 | unseen sum=  2949.9
+  n=16500 unweighted λ=0.003 | valid sum=   221.0 | seen sum=    44.2 | unseen sum=  2450.3
+  n=16500 unweighted λ=0.01  | valid sum=   217.7 | seen sum=    46.8 | unseen sum=  2020.8
+  n=16500 unweighted λ=0.02  | valid sum=   225.9 | seen sum=    53.7 | unseen sum=  1838.2
+  n=16500 unweighted λ=0.05  | valid sum=   248.1 | seen sum=    72.5 | unseen sum=  1677.0
+  n=16500 unweighted λ=0.1   | valid sum=   277.3 | seen sum=    99.4 | unseen sum=  1622.5
+  n=16500 unweighted λ=0.14  | valid sum=   297.8 | seen sum=   118.5 | unseen sum=  1618.0
+  n=16500 unweighted λ=0.2   | valid sum=   326.3 | seen sum=   144.5 | unseen sum=  1628.0
+  n=16500 unweighted λ=0.28  | valid sum=   361.4 | seen sum=   175.3 | unseen sum=  1650.4
+  n=16500 unweighted λ=0.5   | valid sum=   447.4 | seen sum=   245.5 | unseen sum=  1714.7
+  n=16500 weighted   λ=0.001 | valid sum=   270.8 | seen sum=    46.6 | unseen sum=  2625.2
+  n=16500 weighted   λ=0.003 | valid sum=   252.3 | seen sum=    41.6 | unseen sum=  2378.3
+  n=16500 weighted   λ=0.01  | valid sum=   246.4 | seen sum=    40.1 | unseen sum=  2180.9
+  n=16500 weighted   λ=0.02  | valid sum=   247.3 | seen sum=    41.1 | unseen sum=  2110.5
+  n=16500 weighted   λ=0.05  | valid sum=   252.2 | seen sum=    44.8 | unseen sum=  2044.7
+  n=16500 weighted   λ=0.1   | valid sum=   260.9 | seen sum=    50.4 | unseen sum=  1983.0
+  n=16500 weighted   λ=0.14  | valid sum=   268.0 | seen sum=    54.7 | unseen sum=  1943.3
+  n=16500 weighted   λ=0.2   | valid sum=   278.8 | seen sum=    61.2 | unseen sum=  1895.7
+  n=16500 weighted   λ=0.28  | valid sum=   293.5 | seen sum=    70.4 | unseen sum=  1849.3
+  n=16500 weighted   λ=0.5   | valid sum=   335.4 | seen sum=    97.5 | unseen sum=  1783.1
+  n=32042 unweighted λ=0.001 | valid sum=   240.9 | seen sum=    43.8 | unseen sum=  2386.8
+  n=32042 unweighted λ=0.003 | valid sum=   217.9 | seen sum=    42.4 | unseen sum=  2118.5
+  n=32042 unweighted λ=0.01  | valid sum=   216.7 | seen sum=    47.1 | unseen sum=  1859.1
+  n=32042 unweighted λ=0.02  | valid sum=   227.8 | seen sum=    55.2 | unseen sum=  1739.8
+  n=32042 unweighted λ=0.05  | valid sum=   256.6 | seen sum=    76.8 | unseen sum=  1637.2
+  n=32042 unweighted λ=0.1   | valid sum=   292.6 | seen sum=   107.0 | unseen sum=  1612.2
+  n=32042 unweighted λ=0.14  | valid sum=   316.7 | seen sum=   128.0 | unseen sum=  1618.0
+  n=32042 unweighted λ=0.2   | valid sum=   348.8 | seen sum=   156.1 | unseen sum=  1636.6
+  n=32042 unweighted λ=0.28  | valid sum=   387.1 | seen sum=   188.9 | unseen sum=  1665.1
+  n=32042 unweighted λ=0.5   | valid sum=   477.2 | seen sum=   261.9 | unseen sum=  1735.6
+  n=32042 weighted   λ=0.001 | valid sum=   259.4 | seen sum=    39.2 | unseen sum=  2232.3
+  n=32042 weighted   λ=0.003 | valid sum=   242.9 | seen sum=    37.5 | unseen sum=  2151.9
+  n=32042 weighted   λ=0.01  | valid sum=   237.6 | seen sum=    38.6 | unseen sum=  2073.6
+  n=32042 weighted   λ=0.02  | valid sum=   240.0 | seen sum=    40.7 | unseen sum=  2037.9
+  n=32042 weighted   λ=0.05  | valid sum=   248.2 | seen sum=    45.3 | unseen sum=  1984.6
+  n=32042 weighted   λ=0.1   | valid sum=   259.8 | seen sum=    51.1 | unseen sum=  1917.1
+  n=32042 weighted   λ=0.14  | valid sum=   268.3 | seen sum=    55.5 | unseen sum=  1874.5
+  n=32042 weighted   λ=0.2   | valid sum=   280.4 | seen sum=    62.2 | unseen sum=  1826.2
+  n=32042 weighted   λ=0.28  | valid sum=   296.3 | seen sum=    71.6 | unseen sum=  1783.0
+  n=32042 weighted   λ=0.5   | valid sum=   340.4 | seen sum=    99.4 | unseen sum=  1731.3
+
+==============================================================================
+layer 23
+==============================================================================
+  n=  500 unweighted λ=0.001 | valid sum=   663.5 | seen sum=   981.0 | unseen sum=  4229.8
+  n=  500 unweighted λ=0.003 | valid sum=   648.2 | seen sum=   938.9 | unseen sum=  4134.7
+  n=  500 unweighted λ=0.01  | valid sum=   606.6 | seen sum=   832.4 | unseen sum=  3878.7
+  n=  500 unweighted λ=0.02  | valid sum=   566.6 | seen sum=   733.1 | unseen sum=  3620.3
+  n=  500 unweighted λ=0.05  | valid sum=   504.8 | seen sum=   574.6 | unseen sum=  3170.6
+  n=  500 unweighted λ=0.1   | valid sum=   465.8 | seen sum=   462.4 | unseen sum=  2818.3
+  n=  500 unweighted λ=0.14  | valid sum=   453.2 | seen sum=   417.0 | unseen sum=  2662.9
+  n=  500 unweighted λ=0.2   | valid sum=   445.3 | seen sum=   377.0 | unseen sum=  2513.1
+  n=  500 unweighted λ=0.28  | valid sum=   442.8 | seen sum=   347.2 | unseen sum=  2385.0
+  n=  500 unweighted λ=0.5   | valid sum=   448.4 | seen sum=   313.6 | unseen sum=  2189.9
+  n=  500 weighted   λ=0.001 | valid sum=   656.6 | seen sum=   967.4 | unseen sum=  4237.9
+  n=  500 weighted   λ=0.003 | valid sum=   633.2 | seen sum=   908.8 | unseen sum=  4139.2
+  n=  500 weighted   λ=0.01  | valid sum=   584.7 | seen sum=   777.2 | unseen sum=  3834.9
+  n=  500 weighted   λ=0.02  | valid sum=   549.0 | seen sum=   668.4 | unseen sum=  3525.2
+  n=  500 weighted   λ=0.05  | valid sum=   505.2 | seen sum=   516.7 | unseen sum=  3039.4
+  n=  500 weighted   λ=0.1   | valid sum=   482.7 | seen sum=   419.5 | unseen sum=  2722.6
+  n=  500 weighted   λ=0.14  | valid sum=   476.6 | seen sum=   381.1 | unseen sum=  2602.1
+  n=  500 weighted   λ=0.2   | valid sum=   473.6 | seen sum=   346.6 | unseen sum=  2496.3
+  n=  500 weighted   λ=0.28  | valid sum=   473.7 | seen sum=   319.2 | unseen sum=  2411.8
+  n=  500 weighted   λ=0.5   | valid sum=   479.1 | seen sum=   282.1 | unseen sum=  2283.3
+  n= 1500 unweighted λ=0.001 | valid sum=   806.5 | seen sum=   575.5 | unseen sum=  4939.5
+  n= 1500 unweighted λ=0.003 | valid sum=   557.2 | seen sum=   437.2 | unseen sum=  3570.7
+  n= 1500 unweighted λ=0.01  | valid sum=   443.7 | seen sum=   331.8 | unseen sum=  2893.9
+  n= 1500 unweighted λ=0.02  | valid sum=   410.6 | seen sum=   279.0 | unseen sum=  2676.5
+  n= 1500 unweighted λ=0.05  | valid sum=   387.6 | seen sum=   216.8 | unseen sum=  2421.5
+  n= 1500 unweighted λ=0.1   | valid sum=   385.9 | seen sum=   181.0 | unseen sum=  2220.9
+  n= 1500 unweighted λ=0.14  | valid sum=   390.0 | seen sum=   169.0 | unseen sum=  2122.1
+  n= 1500 unweighted λ=0.2   | valid sum=   397.8 | seen sum=   160.9 | unseen sum=  2019.2
+  n= 1500 unweighted λ=0.28  | valid sum=   408.4 | seen sum=   158.1 | unseen sum=  1926.5
+  n= 1500 unweighted λ=0.5   | valid sum=   434.1 | seen sum=   165.1 | unseen sum=  1786.6
+  n= 1500 weighted   λ=0.001 | valid sum=   638.7 | seen sum=   543.6 | unseen sum=  4103.2
+  n= 1500 weighted   λ=0.003 | valid sum=   498.8 | seen sum=   459.2 | unseen sum=  3288.6
+  n= 1500 weighted   λ=0.01  | valid sum=   449.8 | seen sum=   374.3 | unseen sum=  2851.8
+  n= 1500 weighted   λ=0.02  | valid sum=   440.2 | seen sum=   321.7 | unseen sum=  2674.1
+  n= 1500 weighted   λ=0.05  | valid sum=   439.7 | seen sum=   251.7 | unseen sum=  2476.8
+  n= 1500 weighted   λ=0.1   | valid sum=   447.0 | seen sum=   204.3 | unseen sum=  2361.6
+  n= 1500 weighted   λ=0.14  | valid sum=   452.1 | seen sum=   184.9 | unseen sum=  2312.3
+  n= 1500 weighted   λ=0.2   | valid sum=   458.2 | seen sum=   167.9 | unseen sum=  2259.6
+  n= 1500 weighted   λ=0.28  | valid sum=   464.4 | seen sum=   155.6 | unseen sum=  2205.6
+  n= 1500 weighted   λ=0.5   | valid sum=   477.5 | seen sum=   144.0 | unseen sum=  2097.5
+  n= 5500 unweighted λ=0.001 | valid sum=   580.0 | seen sum=   177.7 | unseen sum=  2753.7
+  n= 5500 unweighted λ=0.003 | valid sum=   459.7 | seen sum=   154.9 | unseen sum=  2647.6
+  n= 5500 unweighted λ=0.01  | valid sum=   396.2 | seen sum=   147.8 | unseen sum=  2554.3
+  n= 5500 unweighted λ=0.02  | valid sum=   378.4 | seen sum=   142.8 | unseen sum=  2445.5
+  n= 5500 unweighted λ=0.05  | valid sum=   371.9 | seen sum=   133.0 | unseen sum=  2213.8
+  n= 5500 unweighted λ=0.1   | valid sum=   382.2 | seen sum=   130.4 | unseen sum=  2006.3
+  n= 5500 unweighted λ=0.14  | valid sum=   392.7 | seen sum=   133.4 | unseen sum=  1913.3
+  n= 5500 unweighted λ=0.2   | valid sum=   408.1 | seen sum=   141.1 | unseen sum=  1828.7
+  n= 5500 unweighted λ=0.28  | valid sum=   426.9 | seen sum=   152.7 | unseen sum=  1765.6
+  n= 5500 unweighted λ=0.5   | valid sum=   470.7 | seen sum=   183.2 | unseen sum=  1699.1
+  n= 5500 weighted   λ=0.001 | valid sum=   534.6 | seen sum=   197.6 | unseen sum=  3248.8
+  n= 5500 weighted   λ=0.003 | valid sum=   446.7 | seen sum=   178.5 | unseen sum=  3028.1
+  n= 5500 weighted   λ=0.01  | valid sum=   424.3 | seen sum=   171.0 | unseen sum=  2797.3
+  n= 5500 weighted   λ=0.02  | valid sum=   423.5 | seen sum=   162.7 | unseen sum=  2664.8
+  n= 5500 weighted   λ=0.05  | valid sum=   428.4 | seen sum=   143.2 | unseen sum=  2485.8
+  n= 5500 weighted   λ=0.1   | valid sum=   437.7 | seen sum=   126.3 | unseen sum=  2337.3
+  n= 5500 weighted   λ=0.14  | valid sum=   444.3 | seen sum=   119.4 | unseen sum=  2261.8
+  n= 5500 weighted   λ=0.2   | valid sum=   452.7 | seen sum=   114.3 | unseen sum=  2181.2
+  n= 5500 weighted   λ=0.28  | valid sum=   462.3 | seen sum=   112.2 | unseen sum=  2105.8
+  n= 5500 weighted   λ=0.5   | valid sum=   483.7 | seen sum=   117.0 | unseen sum=  1981.1
+  n=16500 unweighted λ=0.001 | valid sum=   441.7 | seen sum=   100.0 | unseen sum=  2661.6
+  n=16500 unweighted λ=0.003 | valid sum=   399.2 | seen sum=    85.2 | unseen sum=  2519.9
+  n=16500 unweighted λ=0.01  | valid sum=   368.2 | seen sum=    84.8 | unseen sum=  2305.1
+  n=16500 unweighted λ=0.02  | valid sum=   362.1 | seen sum=    89.7 | unseen sum=  2150.1
+  n=16500 unweighted λ=0.05  | valid sum=   371.8 | seen sum=    99.6 | unseen sum=  1933.1
+  n=16500 unweighted λ=0.1   | valid sum=   394.4 | seen sum=   113.6 | unseen sum=  1795.8
+  n=16500 unweighted λ=0.14  | valid sum=   410.6 | seen sum=   124.2 | unseen sum=  1746.1
+  n=16500 unweighted λ=0.2   | valid sum=   432.0 | seen sum=   138.8 | unseen sum=  1706.9
+  n=16500 unweighted λ=0.28  | valid sum=   456.8 | seen sum=   156.0 | unseen sum=  1682.1
+  n=16500 unweighted λ=0.5   | valid sum=   511.8 | seen sum=   193.9 | unseen sum=  1664.8
+  n=16500 weighted   λ=0.001 | valid sum=   487.3 | seen sum=    88.8 | unseen sum=  2841.8
+  n=16500 weighted   λ=0.003 | valid sum=   454.2 | seen sum=    78.9 | unseen sum=  2773.9
+  n=16500 weighted   λ=0.01  | valid sum=   426.3 | seen sum=    75.9 | unseen sum=  2663.6
+  n=16500 weighted   λ=0.02  | valid sum=   416.2 | seen sum=    74.9 | unseen sum=  2575.2
+  n=16500 weighted   λ=0.05  | valid sum=   415.7 | seen sum=    73.2 | unseen sum=  2416.8
+  n=16500 weighted   λ=0.1   | valid sum=   426.3 | seen sum=    73.3 | unseen sum=  2263.9
+  n=16500 weighted   λ=0.14  | valid sum=   434.5 | seen sum=    74.9 | unseen sum=  2183.5
+  n=16500 weighted   λ=0.2   | valid sum=   445.4 | seen sum=    78.3 | unseen sum=  2097.0
+  n=16500 weighted   λ=0.28  | valid sum=   457.7 | seen sum=    83.7 | unseen sum=  2016.5
+  n=16500 weighted   λ=0.5   | valid sum=   485.1 | seen sum=    99.5 | unseen sum=  1888.0
+  n=32042 unweighted λ=0.001 | valid sum=   389.1 | seen sum=    78.9 | unseen sum=  2478.8
+  n=32042 unweighted λ=0.003 | valid sum=   363.0 | seen sum=    74.6 | unseen sum=  2349.8
+  n=32042 unweighted λ=0.01  | valid sum=   347.7 | seen sum=    80.2 | unseen sum=  2160.0
+  n=32042 unweighted λ=0.02  | valid sum=   350.3 | seen sum=    87.0 | unseen sum=  2025.3
+  n=32042 unweighted λ=0.05  | valid sum=   371.5 | seen sum=   100.0 | unseen sum=  1849.9
+  n=32042 unweighted λ=0.1   | valid sum=   402.8 | seen sum=   117.2 | unseen sum=  1748.8
+  n=32042 unweighted λ=0.14  | valid sum=   423.0 | seen sum=   129.5 | unseen sum=  1714.5
+  n=32042 unweighted λ=0.2   | valid sum=   448.3 | seen sum=   145.9 | unseen sum=  1689.0
+  n=32042 unweighted λ=0.28  | valid sum=   476.2 | seen sum=   164.8 | unseen sum=  1674.4
+  n=32042 unweighted λ=0.5   | valid sum=   535.5 | seen sum=   205.5 | unseen sum=  1669.0
+  n=32042 weighted   λ=0.001 | valid sum=   413.9 | seen sum=    75.3 | unseen sum=  2767.9
+  n=32042 weighted   λ=0.003 | valid sum=   403.4 | seen sum=    70.8 | unseen sum=  2720.1
+  n=32042 weighted   λ=0.01  | valid sum=   392.3 | seen sum=    70.1 | unseen sum=  2633.2
+  n=32042 weighted   λ=0.02  | valid sum=   390.6 | seen sum=    69.4 | unseen sum=  2546.8
+  n=32042 weighted   λ=0.05  | valid sum=   399.7 | seen sum=    68.0 | unseen sum=  2374.9
+  n=32042 weighted   λ=0.1   | valid sum=   415.8 | seen sum=    69.2 | unseen sum=  2206.5
+  n=32042 weighted   λ=0.14  | valid sum=   426.2 | seen sum=    71.5 | unseen sum=  2119.2
+  n=32042 weighted   λ=0.2   | valid sum=   439.1 | seen sum=    75.8 | unseen sum=  2026.9
+  n=32042 weighted   λ=0.28  | valid sum=   453.2 | seen sum=    82.1 | unseen sum=  1943.2
+  n=32042 weighted   λ=0.5   | valid sum=   483.9 | seen sum=    99.3 | unseen sum=  1815.9
+
+==============================================================================
+layer 35
+==============================================================================
+  n=  500 unweighted λ=0.001 | valid sum=   660.6 | seen sum=   488.1 | unseen sum=  3461.0
+  n=  500 unweighted λ=0.003 | valid sum=   659.9 | seen sum=   487.5 | unseen sum=  3458.5
+  n=  500 unweighted λ=0.01  | valid sum=   657.6 | seen sum=   485.4 | unseen sum=  3449.8
+  n=  500 unweighted λ=0.02  | valid sum=   654.4 | seen sum=   482.3 | unseen sum=  3437.5
+  n=  500 unweighted λ=0.05  | valid sum=   645.2 | seen sum=   473.6 | unseen sum=  3402.1
+  n=  500 unweighted λ=0.1   | valid sum=   631.0 | seen sum=   460.1 | unseen sum=  3346.7
+  n=  500 unweighted λ=0.14  | valid sum=   620.6 | seen sum=   450.2 | unseen sum=  3305.4
+  n=  500 unweighted λ=0.2   | valid sum=   606.3 | seen sum=   436.6 | unseen sum=  3248.0
+  n=  500 unweighted λ=0.28  | valid sum=   589.4 | seen sum=   420.5 | unseen sum=  3178.8
+  n=  500 unweighted λ=0.5   | valid sum=   552.3 | seen sum=   385.1 | unseen sum=  3022.3
+  n=  500 weighted   λ=0.001 | valid sum=   660.5 | seen sum=   488.0 | unseen sum=  3460.4
+  n=  500 weighted   λ=0.003 | valid sum=   659.6 | seen sum=   487.2 | unseen sum=  3456.7
+  n=  500 weighted   λ=0.01  | valid sum=   656.7 | seen sum=   484.2 | unseen sum=  3444.0
+  n=  500 weighted   λ=0.02  | valid sum=   652.6 | seen sum=   480.1 | unseen sum=  3426.1
+  n=  500 weighted   λ=0.05  | valid sum=   641.0 | seen sum=   468.5 | unseen sum=  3375.0
+  n=  500 weighted   λ=0.1   | valid sum=   623.6 | seen sum=   451.2 | unseen sum=  3297.3
+  n=  500 weighted   λ=0.14  | valid sum=   611.1 | seen sum=   439.0 | unseen sum=  3241.0
+  n=  500 weighted   λ=0.2   | valid sum=   594.5 | seen sum=   422.8 | unseen sum=  3165.0
+  n=  500 weighted   λ=0.28  | valid sum=   575.5 | seen sum=   404.3 | unseen sum=  3076.7
+  n=  500 weighted   λ=0.5   | valid sum=   536.1 | seen sum=   366.2 | unseen sum=  2890.0
+  n= 1500 unweighted λ=0.001 | valid sum=   729.8 | seen sum=   428.0 | unseen sum=  5025.5
+  n= 1500 unweighted λ=0.003 | valid sum=   698.3 | seen sum=   410.6 | unseen sum=  4857.8
+  n= 1500 unweighted λ=0.01  | valid sum=   621.7 | seen sum=   367.1 | unseen sum=  4424.5
+  n= 1500 unweighted λ=0.02  | valid sum=   557.9 | seen sum=   328.6 | unseen sum=  4025.6
+  n= 1500 unweighted λ=0.05  | valid sum=   469.8 | seen sum=   269.6 | unseen sum=  3391.9
+  n= 1500 unweighted λ=0.1   | valid sum=   411.8 | seen sum=   226.3 | unseen sum=  2915.7
+  n= 1500 unweighted λ=0.14  | valid sum=   387.4 | seen sum=   207.4 | unseen sum=  2707.5
+  n= 1500 unweighted λ=0.2   | valid sum=   364.3 | seen sum=   189.6 | unseen sum=  2510.6
+  n= 1500 unweighted λ=0.28  | valid sum=   344.9 | seen sum=   175.1 | unseen sum=  2349.6
+  n= 1500 unweighted λ=0.5   | valid sum=   317.8 | seen sum=   156.0 | unseen sum=  2127.6
+  n= 1500 weighted   λ=0.001 | valid sum=   717.9 | seen sum=   422.1 | unseen sum=  4975.8
+  n= 1500 weighted   λ=0.003 | valid sum=   672.0 | seen sum=   397.4 | unseen sum=  4741.9
+  n= 1500 weighted   λ=0.01  | valid sum=   583.3 | seen sum=   345.7 | unseen sum=  4222.2
+  n= 1500 weighted   λ=0.02  | valid sum=   526.2 | seen sum=   307.2 | unseen sum=  3811.5
+  n= 1500 weighted   λ=0.05  | valid sum=   461.2 | seen sum=   254.9 | unseen sum=  3236.4
+  n= 1500 weighted   λ=0.1   | valid sum=   421.0 | seen sum=   219.4 | unseen sum=  2835.5
+  n= 1500 weighted   λ=0.14  | valid sum=   403.5 | seen sum=   204.2 | unseen sum=  2662.1
+  n= 1500 weighted   λ=0.2   | valid sum=   386.2 | seen sum=   189.9 | unseen sum=  2496.8
+  n= 1500 weighted   λ=0.28  | valid sum=   371.0 | seen sum=   177.9 | unseen sum=  2360.0
+  n= 1500 weighted   λ=0.5   | valid sum=   348.2 | seen sum=   160.7 | unseen sum=  2168.2
+  n= 5500 unweighted λ=0.001 | valid sum=   466.6 | seen sum=   170.8 | unseen sum=  3939.2
+  n= 5500 unweighted λ=0.003 | valid sum=   434.3 | seen sum=   161.0 | unseen sum=  3725.8
+  n= 5500 unweighted λ=0.01  | valid sum=   377.0 | seen sum=   141.1 | unseen sum=  3276.1
+  n= 5500 unweighted λ=0.02  | valid sum=   339.5 | seen sum=   127.5 | unseen sum=  2947.6
+  n= 5500 unweighted λ=0.05  | valid sum=   296.4 | seen sum=   112.5 | unseen sum=  2527.4
+  n= 5500 unweighted λ=0.1   | valid sum=   274.5 | seen sum=   105.7 | unseen sum=  2255.0
+  n= 5500 unweighted λ=0.14  | valid sum=   267.8 | seen sum=   104.0 | unseen sum=  2139.6
+  n= 5500 unweighted λ=0.2   | valid sum=   263.4 | seen sum=   103.2 | unseen sum=  2029.9
+  n= 5500 unweighted λ=0.28  | valid sum=   261.7 | seen sum=   103.3 | unseen sum=  1938.6
+  n= 5500 unweighted λ=0.5   | valid sum=   263.9 | seen sum=   105.4 | unseen sum=  1809.8
+  n= 5500 weighted   λ=0.001 | valid sum=   461.6 | seen sum=   152.8 | unseen sum=  3977.2
+  n= 5500 weighted   λ=0.003 | valid sum=   434.6 | seen sum=   144.6 | unseen sum=  3721.2
+  n= 5500 weighted   λ=0.01  | valid sum=   385.1 | seen sum=   129.4 | unseen sum=  3247.5
+  n= 5500 weighted   λ=0.02  | valid sum=   351.8 | seen sum=   119.6 | unseen sum=  2926.2
+  n= 5500 weighted   λ=0.05  | valid sum=   313.7 | seen sum=   108.1 | unseen sum=  2522.5
+  n= 5500 weighted   λ=0.1   | valid sum=   294.8 | seen sum=   101.3 | unseen sum=  2265.7
+  n= 5500 weighted   λ=0.14  | valid sum=   289.3 | seen sum=    98.6 | unseen sum=  2159.4
+  n= 5500 weighted   λ=0.2   | valid sum=   285.9 | seen sum=    96.4 | unseen sum=  2059.7
+  n= 5500 weighted   λ=0.28  | valid sum=   285.0 | seen sum=    95.0 | unseen sum=  1976.8
+  n= 5500 weighted   λ=0.5   | valid sum=   287.7 | seen sum=    94.3 | unseen sum=  1856.9
+  n=16500 unweighted λ=0.001 | valid sum=   279.5 | seen sum=    68.0 | unseen sum=  2502.8
+  n=16500 unweighted λ=0.003 | valid sum=   278.1 | seen sum=    67.3 | unseen sum=  2482.7
+  n=16500 unweighted λ=0.01  | valid sum=   275.3 | seen sum=    65.7 | unseen sum=  2415.5
+  n=16500 unweighted λ=0.02  | valid sum=   273.7 | seen sum=    64.7 | unseen sum=  2333.6
+  n=16500 unweighted λ=0.05  | valid sum=   272.2 | seen sum=    64.4 | unseen sum=  2160.0
+  n=16500 unweighted λ=0.1   | valid sum=   272.0 | seen sum=    66.1 | unseen sum=  1991.8
+  n=16500 unweighted λ=0.14  | valid sum=   272.7 | seen sum=    67.8 | unseen sum=  1908.3
+  n=16500 unweighted λ=0.2   | valid sum=   274.4 | seen sum=    70.2 | unseen sum=  1824.7
+  n=16500 unweighted λ=0.28  | valid sum=   277.2 | seen sum=    73.2 | unseen sum=  1754.3
+  n=16500 unweighted λ=0.5   | valid sum=   286.1 | seen sum=    79.9 | unseen sum=  1658.7
+  n=16500 weighted   λ=0.001 | valid sum=   287.4 | seen sum=    64.0 | unseen sum=  2863.5
+  n=16500 weighted   λ=0.003 | valid sum=   283.7 | seen sum=    62.7 | unseen sum=  2832.7
+  n=16500 weighted   λ=0.01  | valid sum=   276.7 | seen sum=    60.0 | unseen sum=  2736.5
+  n=16500 weighted   λ=0.02  | valid sum=   272.6 | seen sum=    58.1 | unseen sum=  2626.3
+  n=16500 weighted   λ=0.05  | valid sum=   269.3 | seen sum=    55.6 | unseen sum=  2402.6
+  n=16500 weighted   λ=0.1   | valid sum=   270.6 | seen sum=    54.3 | unseen sum=  2190.4
+  n=16500 weighted   λ=0.14  | valid sum=   273.0 | seen sum=    54.0 | unseen sum=  2085.4
+  n=16500 weighted   λ=0.2   | valid sum=   277.1 | seen sum=    54.2 | unseen sum=  1979.1
+  n=16500 weighted   λ=0.28  | valid sum=   282.2 | seen sum=    54.7 | unseen sum=  1887.0
+  n=16500 weighted   λ=0.5   | valid sum=   293.6 | seen sum=    56.8 | unseen sum=  1751.4
+  n=32042 unweighted λ=0.001 | valid sum=   258.9 | seen sum=    56.2 | unseen sum=  2053.3
+  n=32042 unweighted λ=0.003 | valid sum=   257.8 | seen sum=    55.9 | unseen sum=  2045.0
+  n=32042 unweighted λ=0.01  | valid sum=   256.2 | seen sum=    55.4 | unseen sum=  2015.7
+  n=32042 unweighted λ=0.02  | valid sum=   256.1 | seen sum=    55.3 | unseen sum=  1978.0
+  n=32042 unweighted λ=0.05  | valid sum=   258.9 | seen sum=    56.2 | unseen sum=  1893.8
+  n=32042 unweighted λ=0.1   | valid sum=   264.2 | seen sum=    58.6 | unseen sum=  1808.5
+  n=32042 unweighted λ=0.14  | valid sum=   267.9 | seen sum=    60.5 | unseen sum=  1764.9
+  n=32042 unweighted λ=0.2   | valid sum=   273.0 | seen sum=    63.3 | unseen sum=  1720.0
+  n=32042 unweighted λ=0.28  | valid sum=   279.0 | seen sum=    66.6 | unseen sum=  1681.0
+  n=32042 unweighted λ=0.5   | valid sum=   293.6 | seen sum=    74.4 | unseen sum=  1625.5
+  n=32042 weighted   λ=0.001 | valid sum=   273.9 | seen sum=    49.7 | unseen sum=  2637.2
+  n=32042 weighted   λ=0.003 | valid sum=   271.7 | seen sum=    49.3 | unseen sum=  2626.8
+  n=32042 weighted   λ=0.01  | valid sum=   267.8 | seen sum=    48.5 | unseen sum=  2588.1
+  n=32042 weighted   λ=0.02  | valid sum=   266.0 | seen sum=    48.0 | unseen sum=  2533.1
+  n=32042 weighted   λ=0.05  | valid sum=   266.8 | seen sum=    47.5 | unseen sum=  2390.9
+  n=32042 weighted   λ=0.1   | valid sum=   271.0 | seen sum=    47.6 | unseen sum=  2223.4
+  n=32042 weighted   λ=0.14  | valid sum=   274.5 | seen sum=    47.9 | unseen sum=  2129.2
+  n=32042 weighted   λ=0.2   | valid sum=   279.1 | seen sum=    48.3 | unseen sum=  2026.1
+  n=32042 weighted   λ=0.28  | valid sum=   284.4 | seen sum=    49.1 | unseen sum=  1929.8
+  n=32042 weighted   λ=0.5   | valid sum=   295.2 | seen sum=    51.2 | unseen sum=  1775.5
+
+完整结果表已写入 /home/renlab/linsirui/AI3002/LABs/LAB1/results/geo_augment.csv
+
+==============================================================================
+按 λ 取各集合最优时的汇总（用于观察数据量与泛化的关系）
+==============================================================================
+
+layer 11 / unweighted
+     n |   valid最优λ  valid sum |   seen最优λ  seen sum |   unseen最优λ  unseen sum
+   500 |       0.28      302.1 |      0.28     144.4 |         0.5      2412.1
+  1500 |        0.1      262.8 |       0.1      99.0 |         0.5      1863.9
+  5500 |       0.01      217.3 |      0.01      59.5 |        0.28      1684.4
+ 16500 |       0.01      217.7 |     0.003      44.2 |        0.14      1618.0
+ 32042 |       0.01      216.7 |     0.003      42.4 |         0.1      1612.2
+
+layer 11 / weighted
+     n |   valid最优λ  valid sum |   seen最优λ  seen sum |   unseen最优λ  unseen sum
+   500 |       0.28      293.6 |      0.28     123.7 |         0.5      2610.4
+  1500 |        0.1      274.0 |      0.14      83.2 |         0.5      2265.6
+  5500 |       0.02      247.9 |      0.01      52.3 |         0.5      1918.5
+ 16500 |       0.01      246.4 |      0.01      40.1 |         0.5      1783.1
+ 32042 |       0.01      237.6 |     0.003      37.5 |         0.5      1731.3
+
+layer 23 / unweighted
+     n |   valid最优λ  valid sum |   seen最优λ  seen sum |   unseen最优λ  unseen sum
+   500 |       0.28      442.8 |       0.5     313.6 |         0.5      2189.9
+  1500 |        0.1      385.9 |      0.28     158.1 |         0.5      1786.6
+  5500 |       0.05      371.9 |       0.1     130.4 |         0.5      1699.1
+ 16500 |       0.02      362.1 |      0.01      84.8 |         0.5      1664.8
+ 32042 |       0.01      347.7 |     0.003      74.6 |         0.5      1669.0
+
+layer 23 / weighted
+     n |   valid最优λ  valid sum |   seen最优λ  seen sum |   unseen最优λ  unseen sum
+   500 |        0.2      473.6 |       0.5     282.1 |         0.5      2283.3
+  1500 |       0.05      439.7 |       0.5     144.0 |         0.5      2097.5
+  5500 |       0.02      423.5 |      0.28     112.2 |         0.5      1981.1
+ 16500 |       0.05      415.7 |      0.05      73.2 |         0.5      1888.0
+ 32042 |       0.02      390.6 |      0.05      68.0 |         0.5      1815.9
+
+layer 35 / unweighted
+     n |   valid最优λ  valid sum |   seen最优λ  seen sum |   unseen最优λ  unseen sum
+   500 |        0.5      552.3 |       0.5     385.1 |         0.5      3022.3
+  1500 |        0.5      317.8 |       0.5     156.0 |         0.5      2127.6
+  5500 |       0.28      261.7 |       0.2     103.2 |         0.5      1809.8
+ 16500 |        0.1      272.0 |      0.05      64.4 |         0.5      1658.7
+ 32042 |       0.02      256.1 |      0.02      55.3 |         0.5      1625.5
+
+layer 35 / weighted
+     n |   valid最优λ  valid sum |   seen最优λ  seen sum |   unseen最优λ  unseen sum
+   500 |        0.5      536.1 |       0.5     366.2 |         0.5      2890.0
+  1500 |        0.5      348.2 |       0.5     160.7 |         0.5      2168.2
+  5500 |       0.28      285.0 |       0.5      94.3 |         0.5      1856.9
+ 16500 |       0.05      269.3 |      0.14      54.0 |         0.5      1751.4
+ 32042 |       0.02      266.0 |      0.05      47.5 |         0.5      1775.5

@@ -1,0 +1,7 @@
+{
+  "layer":11,
+  "mode":"unweighted",
+  "n_train":32042,
+  "lambda_lat":0.003,
+  "lambda_lon":0.01
+}

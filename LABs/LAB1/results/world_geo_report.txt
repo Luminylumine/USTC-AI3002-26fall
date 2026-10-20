@@ -1,0 +1,41 @@
+# GeoNames 扩充最终模型（layer 11, mode=unweighted）
+训练集: 32042 条（原始 500 + 扩充 31542）
+
+逐输出 λ 扫描（纬度按 valid 纬度 MSE 选，经度同理）：
+
+[lat]
+  λ=0.001  valid_lat=  26.859 seen=   8.513 unseen=  266.677
+  λ=0.003  valid_lat=  25.856 seen=   8.502 unseen=  217.213
+  λ=0.01   valid_lat=  26.165 seen=   9.128 unseen=  179.590
+  λ=0.02   valid_lat=  28.350 seen=   9.843 unseen=  167.785
+  λ=0.05   valid_lat=  34.408 seen=  11.325 unseen=  160.493
+  λ=0.1    valid_lat=  41.832 seen=  13.221 unseen=  158.308
+  λ=0.14   valid_lat=  46.403 seen=  14.557 unseen=  157.772
+  λ=0.2    valid_lat=  51.978 seen=  16.393 unseen=  157.545
+  λ=0.28   valid_lat=  58.003 seen=  18.625 unseen=  157.702
+  λ=0.5    valid_lat=  70.688 seen=  23.988 unseen=  158.934
+  → valid 最优 λ_lat=0.003 (MSE=25.856)
+
+[lon]
+  λ=0.001  valid_lon= 214.062 seen=  35.290 unseen= 2120.155
+  λ=0.003  valid_lon= 192.007 seen=  33.908 unseen= 1901.330
+  λ=0.01   valid_lon= 190.498 seen=  37.963 unseen= 1679.487
+  λ=0.02   valid_lon= 199.487 seen=  45.363 unseen= 1572.055
+  λ=0.05   valid_lon= 222.186 seen=  65.523 unseen= 1476.711
+  λ=0.1    valid_lon= 250.787 seen=  93.775 unseen= 1453.873
+  λ=0.14   valid_lon= 270.325 seen= 113.446 unseen= 1460.183
+  λ=0.2    valid_lon= 296.869 seen= 139.680 unseen= 1479.032
+  λ=0.28   valid_lon= 329.077 seen= 170.253 unseen= 1507.377
+  λ=0.5    valid_lon= 406.518 seen= 237.916 unseen= 1576.621
+  → valid 最优 λ_lon=0.01 (MSE=190.498)
+
+选定: λ_lat=0.003, λ_lon=0.01
+
+最终模型在三个集合上的表现：
+集合                  样本数      纬度MSE      经度MSE      坐标平均MSE        纬+经
+valid               130     25.856    190.498      108.177    216.354
+eval_seen           145      8.502     37.963       23.232     46.465
+eval_unseen         246    217.213   1679.487      948.350   1896.700
+
+权重已写入 /home/renlab/linsirui/AI3002/LABs/LAB1/results/world_geo.npz (weights (2, 2560), bias (2,), float64)
+元信息: {'layer': 11, 'mode': 'unweighted', 'n_train': 32042, 'lambda_lat': 0.003, 'lambda_lon': 0.01}
