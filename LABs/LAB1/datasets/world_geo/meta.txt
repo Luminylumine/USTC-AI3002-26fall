@@ -1,0 +1,7 @@
+max_cities_per_country=0
+seed=20261021
+covered_countries=145
+novel_countries=39
+aug_rows=31542
+eval_seen_rows=145
+eval_unseen_rows=246
