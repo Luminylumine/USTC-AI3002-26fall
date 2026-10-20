@@ -37,6 +37,9 @@ def main() -> None:
     # 模型超参数（默认值即模型类中的默认值）
     parser.add_argument("--lambda1", type=float, default=0.0, help="L1 正则化强度")
     parser.add_argument("--lambda2", type=float, default=0.0, help="L2 正则化强度")
+    parser.add_argument("--lambda2-lat", type=float, default=None, help="纬度 L2 正则化强度（缺省用 lambda2）")
+    parser.add_argument("--lambda2-lon", type=float, default=None, help="经度 L2 正则化强度（缺省用 lambda2）")
+    parser.add_argument("--weight-by-country", action="store_true", help="对 world 任务按 wi=1/sqrt(n_country) 加权")
     parser.add_argument("--learning-rate", type=float, default=None, help="固定学习率，缺省时自动估计")
     parser.add_argument("--lr-scale", type=float, default=1.0, help="自动学习率的缩放系数")
     parser.add_argument("--lr-decay", type=float, default=0.0, help="学习率衰减系数")
@@ -65,14 +68,28 @@ def main() -> None:
     valid_x, valid_y = load_split(args.task, "valid", args.layer)
 
     if args.task == "world":
+        sample_weights = None
+        if args.weight_by_country:
+            labels_df = pd.read_csv(Path(__file__).parent / "datasets" / "world" / "train.csv")
+            counts = labels_df["country"].value_counts()
+            sample_weights = labels_df["country"].map(lambda c: 1.0 / np.sqrt(counts[c])).to_numpy(dtype=np.float64)
+            print("Using sample weights: wi = 1 / sqrt(n_country)")
+
         # 纬度和经度各训练一个一维线性回归模型。
         latitude_targets = train_y[:, 0]
         longitude_targets = train_y[:, 1]
 
-        latitude_model = LinearRegressionModel(train_x.shape[1], **model_kwargs)
-        longitude_model = LinearRegressionModel(train_x.shape[1], **model_kwargs)
-        latitude_model.fit(train_x, latitude_targets)
-        longitude_model.fit(train_x, longitude_targets)
+        lat_kwargs = dict(model_kwargs)
+        lon_kwargs = dict(model_kwargs)
+        if args.lambda2_lat is not None:
+            lat_kwargs["lambda2"] = args.lambda2_lat
+        if args.lambda2_lon is not None:
+            lon_kwargs["lambda2"] = args.lambda2_lon
+
+        latitude_model = LinearRegressionModel(train_x.shape[1], **lat_kwargs)
+        longitude_model = LinearRegressionModel(train_x.shape[1], **lon_kwargs)
+        latitude_model.fit(train_x, latitude_targets, sample_weight=sample_weights)
+        longitude_model.fit(train_x, longitude_targets, sample_weight=sample_weights)
 
         latitude_predictions = latitude_model.predict(valid_x)
         longitude_predictions = longitude_model.predict(valid_x)
