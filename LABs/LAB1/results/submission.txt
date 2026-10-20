@@ -1,13 +1,30 @@
 Lab1 提交清单
 ============
 world (实验 2.2, 线性回归):
-  npz:  results/world.npz   (weights (2,2560) float64, bias (2,) float64)
+  npz:  results/world.npz (weights (2,2560) float64, bias (2,) float64)
   层数: 11
-  验证 MSE: 149.6352 (纬度 29.1406, 经度 270.1299)   [λ_lat=0.14, λ_lon=0.28]
+  模型类型: 闭式岭回归（目标函数与 2.1 一致；文档允许提交权重不由手写 GD 训练）
+  训练集: 原始 500 条 + GeoNames 扩充 31,542 条 = 32,042 条
+  验证指标:
+    - 坐标平均 MSE: 108.1774 (纬度 MSE: 25.8564, 经度 MSE: 190.4978, 纬度+经度 MSE: 216.3542)
+    - 见过国家 (110条) MSE: 117.83；未见国家 (20条) MSE: 55.06
+    - 超参数: λ_lat=0.003, λ_lon=0.01
+  [对照: results/world_weighted.npz   加权 GD 500 条 -> 坐标平均 MSE 145.3378, 未见国家 135.5401
+         results/world_unweighted.npz 无加权 GD 500 条 -> 坐标平均 MSE 149.6352, 未见国家 162.9536]
 
 truth (实验 2.3, 逻辑回归):
-  npz:  results/truth.npz   (weights (2560,) float64, bias () float64)
+  npz:  results/truth.npz (weights (2560,) float64, bias () float64)
   层数: 23
-  验证准确率: 0.883333 (训练 0.938090)                [λ2=0.03]
+  模型类型: 逻辑回归手写全批量 GD (momentum=0.99, max_iter=8000)
+  验证准确率: 0.883333 (训练 0.938090) [λ2=0.03]
 
-报告: report.pdf (由 report.tex 编译)
+附-6 扩充实验的自建评估集（未参与任何选择）:
+  eval_seen  (145 条, 见过国家/未见地点): 坐标平均 MSE 23.232
+  eval_unseen(246 条, 39 个全新国家):     坐标平均 MSE 948.350
+  对照 加权 GD 500 条: eval_seen 61.21, eval_unseen 1386.57
+
+打包命名:
+  linear.11.npz  <- results/world.npz
+  logistic.23.npz <- results/truth.npz
+  report.pdf     <- 实验报告 (由 report.md 编译)
+  code/          <- LAB1 工程目录 (去除了 datasets 目录)
