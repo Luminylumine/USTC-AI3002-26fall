@@ -222,3 +222,8 @@ __marimo__/
 
 # Lab report PDFs: keep Markdown/source in the repo, never commit compiled PDFs
 LABs/**/*.pdf
+
+# GeoNames 扩充集的特征数组可由此脚本用 GPU 重新生成，避免把大文件放进仓库
+LABs/LAB1/datasets/world_geo/*.npy
+.omo/
+LABs/LAB1/report.html
