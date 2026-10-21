@@ -227,3 +227,6 @@ LABs/**/*.pdf
 LABs/LAB1/datasets/world_geo/*.npy
 .omo/
 LABs/LAB1/report.html
+
+# 提交打包产物（本地生成、用于上传，不进仓库）
+LABs/PB24000301_*
