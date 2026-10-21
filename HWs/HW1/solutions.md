@@ -1,12 +1,8 @@
-# HW1 解答（线形模型）
-
-> 课程：人工智能与机器学习基础（USTC AI3002 26fall）
-> 题目：`HW1-26.pdf`（4 题，15 + 20 + 40 + 25 = 100 分）
-> 本文件为手算推导的完整过程；`verify.py` 仅用于用数值交叉校验手算结果，不替代推导。
+# HW1 
 
 ---
 
-## 1 平方损失的偏差–方差分解（15 pts）
+## 1 平方损失的偏差–方差分解
 
 固定输入 $\boldsymbol{x}_0$，测试标签 $y = f_*(\boldsymbol{x}_0) + \epsilon$，$\mathbb{E}[\epsilon]=0$，$\mathbb{E}[\epsilon^2]=\sigma^2$，
 $Z = f_{\hat{\boldsymbol{w}}_S}(\boldsymbol{x}_0) = \hat{\boldsymbol{w}}_S\cdot\phi(\boldsymbol{x}_0)$，$m = \mathbb{E}_S[Z]$，$\epsilon \perp S$。
@@ -14,7 +10,6 @@ $Z = f_{\hat{\boldsymbol{w}}_S}(\boldsymbol{x}_0) = \hat{\boldsymbol{w}}_S\cdot\
 ### (a) 偏差–方差分解的补全
 
 **第一步：把误差拆成噪声与模型两部分。**
-
 $$
 \mathbb{E}_{S,\epsilon}\big[(y-Z)^2\big]
 = \mathbb{E}_{S,\epsilon}\big[(f_*(\boldsymbol{x}_0) + \epsilon - Z)^2\big]
@@ -30,7 +25,6 @@ $$
 $$
 
 **第二步：交叉项为零。** $f_*(\boldsymbol{x}_0)$ 与 $Z$ 都只依赖于训练集 $S$（不依赖 $\epsilon$），故 $(f_*(\boldsymbol{x}_0)-Z)$ 是 $S$ 的函数；由 $\epsilon \perp S$ 可分离期望，再用 $\mathbb{E}[\epsilon]=0$：
-
 $$
 \mathbb{E}\big[\epsilon(f_*(\boldsymbol{x}_0)-Z)\big]
 = \mathbb{E}[\epsilon]\cdot\mathbb{E}\big[f_*(\boldsymbol{x}_0)-Z\big]
@@ -40,12 +34,11 @@ $$
 于是 $\mathbb{E}[\epsilon^2]=\sigma^2$ 给出**不可约噪声** $\sigma^2$。
 
 **第三步：把剩余项拆成偏差与方差。** 令 $\delta = Z - m$，则 $\mathbb{E}_S[\delta]=0$，$\mathbb{E}_S[\delta^2]=\operatorname{Var}_S(Z)$，且
-
 $$
 f_*(\boldsymbol{x}_0) - Z = (f_*(\boldsymbol{x}_0)-m) - \delta .
 $$
 
-展开（注意 $(f_*(\boldsymbol{x}_0)-m)$ 是常数、$\mathbb{E}[\delta]=0$ 使交叉项消失）：
+展开（显然有 $(f_*(\boldsymbol{x}_0)-m)$ 是常数、$\mathbb{E}[\delta]=0$ 使交叉项消失）：
 
 $$
 \mathbb{E}\big[(f_*-Z)^2\big]
@@ -56,7 +49,7 @@ $$
 **合并：**
 
 $$
-\boxed{\ \mathbb{E}_{S,\epsilon}\big[(y-Z)^2\big] = \sigma^2 + \big(m-f_*(\boldsymbol{x}_0)\big)^2 + \operatorname{Var}_S(Z)\ }
+{\ \mathbb{E}_{S,\epsilon}\big[(y-Z)^2\big] = \sigma^2 + \big(m-f_*(\boldsymbol{x}_0)\big)^2 + \operatorname{Var}_S(Z)\ }
 $$
 
 三项依次为：不可约噪声（irreducible noise）、平方偏差（bias²）、预测方差（variance）。
@@ -71,7 +64,7 @@ $$
 
 ---
 
-## 2 平方损失下的多输出回归（20 pts）
+## 2 平方损失下的多输出回归
 
 ### (a) 单输出损失与可分性
 
@@ -143,7 +136,7 @@ $$
 
 ---
 
-## 3 线性回归：特征表示、模型训练与正则化（40 pts）
+## 3 线性回归：特征表示、模型训练与正则化
 
 常数特征排在首位，故
 
@@ -357,7 +350,7 @@ $$
 
 **选择：$\boldsymbol{w}_A$**（验证 MSE $5/3 < 2$）。虽然它训练 MSE 为 0（看似"过拟合"），但在本验证集上预测更准；$\boldsymbol{w}_B$ 虽然正则惩罚更小，训练误差和验证误差却都更大。
 
-**验证 MSE 中不应加入正则惩罚。** 理由：验证 MSE 度量的是模型在**未见数据上的预测误差**，即纯数据拟合项 $\frac{1}{|V|}\sum_{v\in V}(f_{\boldsymbol{w}}(x_v)-y_v)^2$，这才是我们真正关心的泛化风险的估计。而 $\lambda\|P\boldsymbol{w}\|^2$ 是**训练阶段**为控制模型复杂度而引入的惩罚/代理项，它不参与预测（推理时只是对权重打个"账"），与预测误差量纲、含义都不同：若把它加进验证指标，等于把同一个复杂度惩罚计两次（其影响已通过 $\boldsymbol{w}$ 对预测的作用体现），而且两个模型的 $\lambda$ 可能不同（$\boldsymbol{w}_A$ 是 $\lambda=0$ 的候选），加进去会破坏比较的公平性。模型选择应基于纯预测误差（估计泛化损失），正则只在训练时起作用。
+**验证 MSE 中不应加入正则惩罚, 因为验证 MSE 度量的是模型在**未见数据上的预测误差**，即纯数据拟合项 $\frac{1}{|V|}\sum_{v\in V}(f_{\boldsymbol{w}}(x_v)-y_v)^2$，这才是我们真正关心的泛化风险的估计。而 $\lambda\|P\boldsymbol{w}\|^2$ 是**训练阶段**为控制模型复杂度而引入的惩罚/代理项，它不参与预测（推理时只是对权重打个"账"），与预测误差量纲、含义都不同：若把它加进验证指标，等于把同一个复杂度惩罚计两次（其影响已通过 $\boldsymbol{w}$ 对预测的作用体现），而且两个模型的 $\lambda$ 可能不同（$\boldsymbol{w}_A$ 是 $\lambda=0$ 的候选），加进去会破坏比较的公平性。模型选择应基于纯预测误差（估计泛化损失），正则只在训练时起作用。
 
 ### (e) $\lambda$ 增大时训练 MSE 与正则范数的单调性
 
@@ -436,13 +429,11 @@ $$
 \big[\nabla(\lambda\|P\boldsymbol{w}\|^2)\big]_0 = 0 .
 $$
 
-要让权重衰减的更新**严格等价于**对 $J_\lambda$ 作梯度下降，截距就必须保持原值不被乘以衰减因子（系数 $1-2\eta\lambda\cdot 0 = 1$）。若首元也取 $c=5/6$，截距会被额外收缩，等价于额外对截距加了一个（错误的）正则项，更新就不再是对 $J_\lambda$ 的梯度下降。
-
-**小结：** 在恒定学习率的普通梯度下降下，"显式 L2 惩罚项" 与 "对被惩罚分量乘衰减因子 $c=1-2\eta\lambda$ 的权重衰减" 完全等价；但这一等价性依赖于优化器——在带动量的 SGD 或 Adam 中，L2 惩罚与 weight decay 会产生不同的轨迹（这正是 AdamW 与 Adam+L2 的区别）。
+要让权重衰减的更新严格等价于对 $J_\lambda$ 作梯度下降，截距就必须保持原值不被乘以衰减因子（系数 $1-2\eta\lambda\cdot 0 = 1$）。若首元也取 $c=5/6$，截距会被额外收缩，等价于额外对截距加了一个（错误的）正则项，更新就不再是对 $J_\lambda$ 的梯度下降。
 
 ---
 
-## 4 逻辑回归：概率建模与分类置信度（25 pts）
+## 4 逻辑回归：概率建模与分类置信度
 
 数据（每组 8 条观测，似然按观测逐条相乘）：
 
@@ -561,10 +552,8 @@ $$
 
 **2. 错误。** 训练样本真标签概率 $\to1$ 只反映**训练集**上的置信度（此时 $t$ 极大、模型极度自信）；同分布的测试数据含新的、尤其靠近边界的样本，大权重会让模型对少数错误预测也给出接近 1 的高置信度，单条错误的巨大 NLL 惩罚（$-\ln(\text{很小的概率})$）会使测试平均 NLL **上升**。训练置信度趋近 1 保证的是训练 NLL 下降，不保证测试 NLL 下降（过拟合 / 置信度未校准）。
 
-**为什么 $\lambda\| \boldsymbol{w}\|_2^2 = \lambda t^2$（$\lambda>0$）能抑制权重无限增大：** 加入正则后目标为 $J_B(t)+\lambda t^2$。当 $|t|\to\infty$ 时，$J_B(t)\to 0$（有界）而 $\lambda t^2\to+\infty$，故目标在两端都趋于 $+\infty$；目标连续，因此必在**某个有限 $t$** 处取到最小值，权重被限制在有限范围内，不再无限增大。（直觉：正则项对"靠极大权重换取训练置信度"的行为按 $t^2$ 收费，使无限增大在代价上得不偿失。）
+**为什么 $\lambda\| \boldsymbol{w}\|_2^2 = \lambda t^2$（$\lambda>0$）能抑制权重无限增大：** 加入正则后目标为 $J_B(t)+\lambda t^2$。当 $|t|\to\infty$ 时，$J_B(t)\to 0$（有界）而 $\lambda t^2\to+\infty$，故目标在两端都趋于 $+\infty$；目标连续，因此必在**某个有限 $t$** 处取到最小值，权重被限制在有限范围内，不再无限增大。（正则项对"靠极大权重换取训练置信度"的行为按 $t^2$ 收费，使无限增大在代价上得不偿失。）
 
 ---
 
-## 附：数值校验
 
-见 `verify.py`（用 `lsr-env-gpu` 的 numpy 运行）：它独立地重算第 1 题的 Monte-Carlo 分解、第 3 题的全部数值（$\boldsymbol{w}_A$、残差、梯度、一步 GD、目标值、训练/验证 MSE）以及第 4 题的闭式损失、最优 $t$ 与缩放对比，结果与上面的手算逐条一致。
