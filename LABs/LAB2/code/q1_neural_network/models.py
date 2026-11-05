@@ -8,16 +8,24 @@ class MLP(nn.Module):
         super().__init__()
         sizes = [input_size, *widths]
 
-        # TODO 1：补全三个属性的构造，保留赋值左侧的名称。
         # hidden：按顺序保存带偏置的隐藏层 Linear，类型为 nn.ModuleList。
         # activation：按参数选择 nn.ReLU() 或 nn.Sigmoid()。
         # output：从最后一个隐藏层映射到 1；无隐藏层时从 input_size 映射到 1。
-        self.hidden = ...
-        self.activation = ...
-        self.output = ...
-        raise NotImplementedError("请完成 TODO 1，并删除这一行占位异常。")
+        self.hidden = nn.ModuleList([
+            nn.Linear(sizes[i], sizes[i + 1], bias=True)
+            for i in range(len(widths))
+        ])
+        if activation == "relu":
+            self.activation = nn.ReLU()
+        elif activation == "sigmoid":
+            self.activation = nn.Sigmoid()
+        else:
+            raise ValueError(f"Unsupported activation: {activation}")
+        out_in = widths[-1] if len(widths) > 0 else input_size
+        self.output = nn.Linear(out_in, 1, bias=True)
 
     def forward(self, x):
-        # TODO 2：依次经过隐藏层及激活，最后经过线性输出层。
         # 输入形状为 (B, input_size)，返回形状为 (B, 1)。
-        raise NotImplementedError("请完成 TODO 2，并删除这一行占位异常。")
+        for layer in self.hidden:
+            x = self.activation(layer(x))
+        return self.output(x)
