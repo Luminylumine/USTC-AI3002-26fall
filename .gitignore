@@ -219,3 +219,24 @@ __marimo__/
 
 # MacOS files
 .DS_Store
+
+# ===== 实验与作业产物：仅提交 Markdown 源文件与代码 =====
+# 子代理草稿与运行留档
+.tmp/
+.omo/
+
+# 编译产物：报告只保留 Markdown 源文件
+LABs/**/*.pdf
+LABs/LAB1/report.html
+
+# GeoNames 扩充集的特征数组可用 GPU 重新生成
+LABs/LAB1/datasets/world_geo/*.npy
+
+# 提交打包产物
+LABs/PB24000301_*
+
+# LAB2 运行产物：本地保留至验收结束，只提交报告与代码
+LABs/LAB2/code/q1_neural_network/outputs/
+LABs/LAB2/code/q2_clustering/outputs*/
+LABs/LAB2/figures/
+LABs/LAB2/results/
